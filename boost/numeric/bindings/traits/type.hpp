@@ -4,7 +4,6 @@
 // This header provides typedefs to float complex and double complex.
 // This makes it possible to redefine the complex class being used.
 
-#include <complex>
 
 namespace boost { namespace numeric { namespace bindings { namespace traits {
 
@@ -17,15 +16,16 @@ namespace boost { namespace numeric { namespace bindings { namespace traits {
    * unit and the resulting binary will still work!
    */
 #ifndef BOOST_NUMERIC_BINDINGS_USE_CUSTOM_COMPLEX_TYPE
+#include <complex>
   typedef std::complex< float >  complex_f ;
-  typedef std::complex< double > complex_d ; 
+  typedef std::complex< double > complex_d ;
+
+  inline float  real (complex_f const& c) { return std::real (c); }
+  inline float  imag (complex_f const& c) { return std::imag (c); }
+  inline double real (complex_d const& c) { return std::real (c); }
+  inline double imag (complex_d const& c) { return std::imag (c); }
+
 #endif
-
-  template <typename T> 
-  T real (std::complex<T> const& c) { return std::real (c); }
-  template <typename T> 
-  T imag (std::complex<T> const& c) { return std::imag (c); }
-
 
   struct null_t {};
 

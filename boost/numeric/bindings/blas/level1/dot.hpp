@@ -170,7 +170,17 @@ inline double dot( const fortran_int_t n, const double* x,
 inline std::complex<float> dot( const fortran_int_t n,
         const std::complex<float>* x, const fortran_int_t incx,
         const std::complex<float>* y, const fortran_int_t incy ) {
-    return BLAS_CDOTU( &n, x, &incx, y, &incy );
+#if defined BIND_FORTRAN_RETURN_COMPLEX_FIRST_ARG
+  std::complex<float> res;
+  BLAS_CDOTU( &res, &n, x, &incx, y, &incy );
+  return res;
+#elif defined BIND_FORTRAN_RETURN_COMPLEX_LAST_ARG
+  std::complex<float> res;
+  BLAS_CDOTU( &n, x, &incx, y, &incy, &res );
+  return res;
+#else
+   return BLAS_CDOTU( &n, x, &incx, y, &incy );
+#endif
 }
 
 //
@@ -181,7 +191,17 @@ inline std::complex<float> dot( const fortran_int_t n,
 inline std::complex<double> dot( const fortran_int_t n,
         const std::complex<double>* x, const fortran_int_t incx,
         const std::complex<double>* y, const fortran_int_t incy ) {
-    return BLAS_ZDOTU( &n, x, &incx, y, &incy );
+#if defined BIND_FORTRAN_RETURN_COMPLEX_FIRST_ARG
+  std::complex<double> res;
+  BLAS_ZDOTU( &res, &n, x, &incx, y, &incy );
+  return res;
+#elif defined BIND_FORTRAN_RETURN_COMPLEX_LAST_ARG
+  std::complex<double> res;
+  BLAS_ZDOTU( &n, x, &incx, y, &incy, &res );
+  return res;
+#else
+  return BLAS_ZDOTU( &n, x, &incx, y, &incy );
+#endif
 }
 
 #endif

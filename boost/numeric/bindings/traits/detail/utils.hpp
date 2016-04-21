@@ -49,10 +49,10 @@ namespace boost { namespace numeric { namespace bindings { namespace traits {
     // converts real/complex to std::ptrdiff_t
     inline std::ptrdiff_t to_int (float f) { return static_cast<std::ptrdiff_t> (f); }
     inline std::ptrdiff_t to_int (double d) { return static_cast<std::ptrdiff_t> (d); }
-    inline std::ptrdiff_t to_int (traits::complex_f const& cf) {
+    inline std::ptrdiff_t to_int (std::complex<float> const& cf) {
       return static_cast<std::ptrdiff_t> (traits::real (cf));
     }
-    inline std::ptrdiff_t to_int (traits::complex_d const& cd) {
+    inline std::ptrdiff_t to_int (std::complex<double> const& cd) {
       return static_cast<std::ptrdiff_t> (traits::real (cd));
     }
 

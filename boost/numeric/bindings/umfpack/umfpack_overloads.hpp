@@ -43,7 +43,7 @@ namespace boost { namespace numeric { namespace bindings {
 
     inline
     int symbolic (int n_row, int n_col,
-                  int const* Ap, int const* Ai, traits::complex_d const* Ax, 
+                  int const* Ap, int const* Ai, std::complex<double> const* Ax, 
                   void **Symbolic, double const* Control, double* Info)
     {
       int nnz = Ap[n_col];
@@ -72,7 +72,7 @@ namespace boost { namespace numeric { namespace bindings {
 
     inline
     int numeric (int, int n_col, 
-                 int const* Ap, int const* Ai, traits::complex_d const* Ax, 
+                 int const* Ap, int const* Ai, std::complex<double> const* Ax, 
                  void *Symbolic, void **Numeric,
                  double const* Control, double* Info)
     {
@@ -101,8 +101,8 @@ namespace boost { namespace numeric { namespace bindings {
 
     inline
     int solve (int sys, int n, 
-               int const* Ap, int const* Ai, traits::complex_d const* Ax, 
-               traits::complex_d* X, traits::complex_d const* B, 
+               int const* Ap, int const* Ai, std::complex<double> const* Ax, 
+               std::complex<double>* X, std::complex<double> const* B, 
                void *Numeric, double const* Control, double* Info)
     {
       int nnz = Ap[n];
@@ -142,7 +142,7 @@ namespace boost { namespace numeric { namespace bindings {
       umfpack_di_free_symbolic (Symbolic); 
     }
     inline
-    void free_symbolic (traits::complex_d const&, int, void **Symbolic) {
+    void free_symbolic (std::complex<double> const&, int, void **Symbolic) {
       umfpack_zi_free_symbolic (Symbolic); 
     }
 
@@ -154,7 +154,7 @@ namespace boost { namespace numeric { namespace bindings {
       umfpack_di_free_numeric (Numeric); 
     }
     inline
-    void free_numeric (traits::complex_d const&, int, void **Numeric) {
+    void free_numeric (std::complex<double> const&, int, void **Numeric) {
       umfpack_zi_free_numeric (Numeric); 
     }
 
@@ -170,7 +170,7 @@ namespace boost { namespace numeric { namespace bindings {
       umfpack_di_defaults (Control); 
     }
     inline
-    void defaults (traits::complex_d const&, int, double* Control) {
+    void defaults (std::complex<double> const&, int, double* Control) {
       umfpack_zi_defaults (Control); 
     }
 
@@ -189,7 +189,7 @@ namespace boost { namespace numeric { namespace bindings {
 
     inline
     int qsymbolic (int n_row, int n_col,
-                   int const* Ap, int const* Ai, traits::complex_d const* Ax, 
+                   int const* Ap, int const* Ai, std::complex<double> const* Ax, 
                    int const* Qinit, 
                    void **Symbolic, double const* Control, double* Info)
     {
@@ -225,8 +225,8 @@ namespace boost { namespace numeric { namespace bindings {
     inline 
     int triplet_to_col (int n_row, int n_col, int nz,
                         int const* Ti, int const* Tj, 
-                        traits::complex_d const* Tx, 
-                        int* Ap, int* Ai, traits::complex_d* Ax, 
+                        std::complex<double> const* Tx, 
+                        int* Ap, int* Ai, std::complex<double>* Ax, 
                         int* Map)
     {
       assert (Tx == 0 && Ax == 0 || Tx != 0 && Ax != 0); 
@@ -269,8 +269,8 @@ namespace boost { namespace numeric { namespace bindings {
     } 
 
     inline
-    int scale (int n, traits::complex_d* X, 
-               traits::complex_d const* B, void* Numeric) 
+    int scale (int n, std::complex<double>* X, 
+               std::complex<double> const* B, void* Numeric) 
     {
       bindings::detail::array<double> Br (n); 
       if (!Br.valid()) return UMFPACK_ERROR_out_of_memory;
@@ -304,7 +304,7 @@ namespace boost { namespace numeric { namespace bindings {
       umfpack_di_report_status (Control, status); 
     }
     inline
-    void report_status (traits::complex_d const&, int, 
+    void report_status (std::complex<double> const&, int, 
                         double const* Control, int status) 
     {
       umfpack_zi_report_status (Control, status); 
@@ -319,7 +319,7 @@ namespace boost { namespace numeric { namespace bindings {
     }
     inline
     void 
-    report_control (traits::complex_d const&, int, double const* Control) {
+    report_control (std::complex<double> const&, int, double const* Control) {
       umfpack_zi_report_control (Control); 
     }
 
@@ -331,7 +331,7 @@ namespace boost { namespace numeric { namespace bindings {
       umfpack_di_report_info (Control, Info); 
     }
     inline
-    void report_info (traits::complex_d const&, int, 
+    void report_info (std::complex<double> const&, int, 
                       double const* Control, double const* Info) 
     {
       umfpack_zi_report_info (Control, Info); 
@@ -352,7 +352,7 @@ namespace boost { namespace numeric { namespace bindings {
     inline 
     int report_matrix (int n_row, int n_col, 
                        int const* Ap, int const* Ai, 
-                       traits::complex_d const* Ax, 
+                       std::complex<double> const* Ax, 
                        int col_form, double const* Control) 
     {
       int nnz = Ap[n_col];
@@ -381,7 +381,7 @@ namespace boost { namespace numeric { namespace bindings {
     inline
     int report_triplet (int n_row, int n_col, int nz,
                         int const* Ti, int const* Tj, 
-                        traits::complex_d const* Tx, 
+                        std::complex<double> const* Tx, 
                         double const* Control) 
     {
       bindings::detail::array<double> Txr (nz); 
@@ -404,7 +404,7 @@ namespace boost { namespace numeric { namespace bindings {
     }
 
     inline
-    int report_vector (int n, traits::complex_d const* X, 
+    int report_vector (int n, std::complex<double> const* X, 
                        double const* Control) 
     {
 #if 0
@@ -431,7 +431,7 @@ namespace boost { namespace numeric { namespace bindings {
       return umfpack_di_report_numeric (Numeric, Control); 
     }
     inline
-    int report_numeric (traits::complex_d const&, int, 
+    int report_numeric (std::complex<double> const&, int, 
                         void* Numeric, double const* Control) 
     {
       return umfpack_zi_report_numeric (Numeric, Control); 
@@ -445,7 +445,7 @@ namespace boost { namespace numeric { namespace bindings {
       return umfpack_di_report_symbolic (Symbolic, Control); 
     }
     inline
-    int report_symbolic (traits::complex_d const&, int, 
+    int report_symbolic (std::complex<double> const&, int, 
                          void* Symbolic, double const* Control) 
     {
       return umfpack_zi_report_symbolic (Symbolic, Control); 
@@ -460,7 +460,7 @@ namespace boost { namespace numeric { namespace bindings {
       return umfpack_di_report_perm (np, Perm, Control); 
     }
     inline
-    int report_perm (traits::complex_d const&, int, int np, 
+    int report_perm (std::complex<double> const&, int, int np, 
                      int const* Perm, double const* Control) {
       return umfpack_zi_report_perm (np, Perm, Control); 
     }

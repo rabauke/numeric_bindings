@@ -18,6 +18,7 @@
 #define BOOST_NUMERIC_BINDINGS_BLAS_DETAIL_BLAS_H
 
 #include <boost/numeric/bindings/blas/detail/blas_names.h>
+#include <complex>
 
 extern "C" {
 
@@ -74,9 +75,9 @@ extern "C" {
   void BLAS_ZDOTU(const fortran_int_t* n, const void* x,
 		  const fortran_int_t* incx, const void* y, const fortran_int_t* incy, void* res);
 #else
-  boost::numeric::bindings::traits::complex_f BLAS_CDOTU(const fortran_int_t* n, const void* x,
-							 const fortran_int_t* incx, const void* y, const fortran_int_t* incy);
-  boost::numeric::bindings::traits::complex_d BLAS_ZDOTU(const fortran_int_t* n, const void* x,
+  std::complex<float>  BLAS_CDOTU(const fortran_int_t* n, const void* x,
+				  const fortran_int_t* incx, const void* y, const fortran_int_t* incy);
+  std::complex<double> BLAS_ZDOTU(const fortran_int_t* n, const void* x,
 							 const fortran_int_t* incx, const void* y, const fortran_int_t* incy);
 #endif
   
@@ -92,17 +93,17 @@ extern "C" {
   void BLAS_ZDOTH(const fortran_int_t* n, const void* x,
 		  const fortran_int_t* incx, const void* y, const fortran_int_t* incy, void* res);
 #else
-  boost::numeric::bindings::traits::complex_f BLAS_CDOTH(const fortran_int_t* n, const void* x,
-							 const fortran_int_t* incx, const void* y, const fortran_int_t* incy);
-  boost::numeric::bindings::traits::complex_d BLAS_ZDOTH(const fortran_int_t* n, const void* x,
-							 const fortran_int_t* incx, const void* y, const fortran_int_t* incy);
+  std::complex<float>  BLAS_CDOTH(const fortran_int_t* n, const void* x,
+				  const fortran_int_t* incx, const void* y, const fortran_int_t* incy);
+  std::complex<double> BLAS_ZDOTH(const fortran_int_t* n, const void* x,
+				  const fortran_int_t* incx, const void* y, const fortran_int_t* incy);
 #endif
 
   // Value-type variants of dotc
-  boost::numeric::bindings::traits::complex_f BLAS_CDOTC(const fortran_int_t* n, const void* x,
-							 const fortran_int_t* incx, const void* y, const fortran_int_t* incy);
-  boost::numeric::bindings::traits::complex_d BLAS_ZDOTC(const fortran_int_t* n, const void* x,
-							 const fortran_int_t* incx, const void* y, const fortran_int_t* incy);
+  std::complex<float>  BLAS_CDOTC(const fortran_int_t* n, const void* x,
+				  const fortran_int_t* incx, const void* y, const fortran_int_t* incy);
+  std::complex<double> BLAS_ZDOTC(const fortran_int_t* n, const void* x,
+				  const fortran_int_t* incx, const void* y, const fortran_int_t* incy);
 
   // Value-type variants of iamax
   fortran_int_t BLAS_ISAMAX(const fortran_int_t* n, const float* x,

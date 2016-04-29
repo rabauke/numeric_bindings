@@ -1,5 +1,6 @@
 //
 // Copyright (c) 2009 Rutger ter Borg
+// Copyright (c) 2016 Heiko Bauke
 //
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at
@@ -113,7 +114,7 @@ struct adaptor< ublas::matrix_slice< T >, Id, Enable > {
 template< typename T, typename Id, typename Enable >
 struct adaptor< ublas::matrix_column< T >, Id, Enable > {
 
-    typedef typename copy_const< Id, typename bindings::value_type< T>::type >::type value_type;
+    typedef typename copy_const< Id, typename ublas::matrix_column<T>::value_type >::type value_type;
     typedef mpl::map<
         mpl::pair< tag::value_type, value_type >,
         mpl::pair< tag::entity, tag::vector >,
@@ -128,17 +129,15 @@ struct adaptor< ublas::matrix_column< T >, Id, Enable > {
     }
 
     static value_type* begin_value( Id& id ) {
-        return bindings::begin_value( id.data() ) + 
-               offset( id.data(), 0, id.index() );
+        return &(*id.begin());
     }
 
     static value_type* end_value( Id& id ) {
-        return bindings::begin_value( id.data() ) +
-               offset( id.data(), bindings::size(id), id.index() );
+        return &(*id.begin())+size1(id)*stride1(id);
     }
 
     static std::ptrdiff_t stride1( const Id& id ) {
-        return bindings::stride1( id.data() );
+        return id.size()>1 ? (reinterpret_cast<const value_type *>(&(*(id.begin()+1)))-reinterpret_cast<const value_type *>(&(*id.begin()))) : 0;
     }
 
 };
@@ -147,7 +146,7 @@ struct adaptor< ublas::matrix_column< T >, Id, Enable > {
 template< typename T, typename Id, typename Enable >
 struct adaptor< ublas::matrix_row< T >, Id, Enable > {
 
-    typedef typename copy_const< Id, typename bindings::value_type< T>::type >::type value_type;
+    typedef typename copy_const< Id, typename ublas::matrix_row<T>::value_type >::type value_type;
     typedef mpl::map<
         mpl::pair< tag::value_type, value_type >,
         mpl::pair< tag::entity, tag::vector >,
@@ -162,17 +161,15 @@ struct adaptor< ublas::matrix_row< T >, Id, Enable > {
     }
 
     static value_type* begin_value( Id& id ) {
-        return bindings::begin_value( id.data() ) + 
-               offset( id.data(), id.index(), 0 );
+        return &(*id.begin());
     }
 
     static value_type* end_value( Id& id ) {
-        return bindings::begin_value( id.data() ) +
-               offset( id.data(), id.index(), bindings::size(id) );
+        return &(*id.begin())+size1(id)*stride1(id);
     }
 
     static std::ptrdiff_t stride1( const Id& id ) {
-        return bindings::stride2( id.data() );
+        return id.size()>1 ? (reinterpret_cast<const value_type *>(&(*(id.begin()+1)))-reinterpret_cast<const value_type *>(&(*id.begin()))) : 0;
     }
 
 };

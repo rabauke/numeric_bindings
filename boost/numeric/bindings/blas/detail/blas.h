@@ -18,6 +18,7 @@
 #define BOOST_NUMERIC_BINDINGS_BLAS_DETAIL_BLAS_H
 
 #include <boost/numeric/bindings/blas/detail/blas_names.h>
+#include <boost/numeric/bindings/detail/config/fortran.hpp>
 #include <complex>
 
 extern "C" {
@@ -78,7 +79,7 @@ extern "C" {
   std::complex<float>  BLAS_CDOTU(const fortran_int_t* n, const void* x,
 				  const fortran_int_t* incx, const void* y, const fortran_int_t* incy);
   std::complex<double> BLAS_ZDOTU(const fortran_int_t* n, const void* x,
-							 const fortran_int_t* incx, const void* y, const fortran_int_t* incy);
+				  const fortran_int_t* incx, const void* y, const fortran_int_t* incy);
 #endif
   
   // Value-type variants of doth

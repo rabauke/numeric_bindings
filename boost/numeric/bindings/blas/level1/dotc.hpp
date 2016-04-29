@@ -3,6 +3,8 @@
 // Toon Knapen, Karl Meerbergen, Kresimir Fresl,
 // Thomas Klimpel and Rutger ter Borg
 //
+// Copyright (c) 2016 Heiko Bauke
+//
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
@@ -110,7 +112,17 @@ inline std::complex<double> dotc( const int n, const std::complex<double>* x,
 inline std::complex<float> dotc( const fortran_int_t n,
         const std::complex<float>* x, const fortran_int_t incx,
         const std::complex<float>* y, const fortran_int_t incy ) {
+#if defined BIND_FORTRAN_RETURN_COMPLEX_FIRST_ARG
+    std::complex<float> res;
+    BLAS_CDOTC( &res, &n, x, &incx, y, &incy );
+    return res;
+#elif defined BIND_FORTRAN_RETURN_COMPLEX_LAST_ARG
+    std::complex<float> res;
+    BLAS_CDOTC( &n, x, &incx, y, &incy, &res );
+    return res;
+#else
     return BLAS_CDOTC( &n, x, &incx, y, &incy );
+#endif
 }
 
 //
@@ -121,10 +133,21 @@ inline std::complex<float> dotc( const fortran_int_t n,
 inline std::complex<double> dotc( const fortran_int_t n,
         const std::complex<double>* x, const fortran_int_t incx,
         const std::complex<double>* y, const fortran_int_t incy ) {
+#if defined BIND_FORTRAN_RETURN_COMPLEX_FIRST_ARG
+    std::complex<double> res;
+    BLAS_ZDOTC( &res, &n, x, &incx, y, &incy );
+    return res;
+#elif defined BIND_FORTRAN_RETURN_COMPLEX_LAST_ARG
+    std::complex<double> res;
+    BLAS_ZDOTC( &n, x, &incx, y, &incy, &res );
+    return res;
+#else
     return BLAS_ZDOTC( &n, x, &incx, y, &incy );
+#endif
 }
 
 #endif
+
 
 } // namespace detail
 

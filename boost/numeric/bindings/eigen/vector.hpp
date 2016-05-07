@@ -86,7 +86,7 @@ struct adaptor< Eigen::Block< T, 1, S, q >, Id, Enable > {
     > property_map;
 
     static std::ptrdiff_t size1( const Id& id ) {
-        return id.cols();
+        return id.size();
     }
 
     static value_type* begin_value( Id& id ) {
@@ -94,7 +94,7 @@ struct adaptor< Eigen::Block< T, 1, S, q >, Id, Enable > {
     }
 
     static value_type* end_value( Id& id ) {
-      return id.data() + id.size();
+      return id.data() + size1(id)*stride1(id);
     }
 
     static std::ptrdiff_t stride1( const Id& id ) {
@@ -117,7 +117,7 @@ struct adaptor< Eigen::Block< T, S, 1, q >, Id, Enable > {
     > property_map;
 
     static std::ptrdiff_t size1( const Id& id ) {
-        return id.rows();
+        return id.size();
     }
 
     static value_type* begin_value( Id& id ) {
@@ -125,7 +125,7 @@ struct adaptor< Eigen::Block< T, S, 1, q >, Id, Enable > {
     }
 
     static value_type* end_value( Id& id ) {
-      return id.data() + id.size();
+      return id.data() + size1(id)*stride1(id);
     }
 
     static std::ptrdiff_t stride1( const Id& id ) {

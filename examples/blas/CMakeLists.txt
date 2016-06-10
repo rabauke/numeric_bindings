@@ -1,0 +1,23 @@
+cmake_minimum_required(VERSION 2.8.9)
+
+set(CMAKE_CXX_EXTENSIONS off)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+include_directories(../../ ../../../../eigen/)
+
+project(Blas_tests)
+add_executable(set set.cc)
+target_link_libraries(set blas)
+add_executable(copy copy.cc)
+target_link_libraries(copy blas)
+add_executable(swap swap.cc)
+target_link_libraries(swap blas)
+add_executable(scal scal.cc)
+target_link_libraries(scal blas)
+add_executable(dot dot.cc)
+target_link_libraries(dot blas)
+add_executable(axpy axpy.cc)
+target_link_libraries(axpy blas)
+add_executable(nrm2 nrm2.cc)
+target_link_libraries(nrm2 blas)

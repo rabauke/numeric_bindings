@@ -31,11 +31,12 @@ struct adaptor< ublas::banded_matrix< T, F, A >, Id, Enable > {
     // The ublas banded row_major format corresponds to the LAPACK band format.
     // LAPACK is column_major; so we flip the data order reported by uBLAS.
     typedef typename copy_const< Id, T >::type value_type;
-    typedef typename if_row_major<
-                typename convert_to< tag::data_order, F >::type,
-                tag::column_major,
-                tag::row_major
-            >::type data_order;
+    // typedef typename if_row_major<
+    //             typename convert_to< tag::data_order, F >::type,
+    //             tag::column_major,
+    //             tag::row_major
+    //         >::type data_order;
+    typedef typename convert_to< tag::data_order, F >::type data_order;
     typedef mpl::map<
         mpl::pair< tag::value_type, value_type >,
         mpl::pair< tag::entity, tag::matrix >,

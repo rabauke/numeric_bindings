@@ -23,15 +23,15 @@ int main(int argc, char *argv[]) {
     vector v(n);
     for (size_type i=0; i<n; ++i)
       v(i)=i;
-    std::cout << blas::nrm2(v) << '\n';
+    std::cout << blas::asum(v) << '\n';
     matrix M(n, n);
     for (size_type j=0; j<n; ++j)
       for (size_type i=0; i<n; ++i) 
      	M(i, j)=std::complex<double>(i, j);
     ublas::matrix_column<matrix> mc(M, 2);
     ublas::matrix_row<matrix> mr(M, 3);
-    std::cout << blas::nrm2(mc) << '\n'
-	      << blas::nrm2(mr) << '\n';
+    std::cout << blas::asum(mc) << '\n'
+	      << blas::asum(mr) << '\n';
   }
   {
     typedef Eigen::Matrix<std::complex<double>, Eigen::Dynamic, 1> vector;
@@ -41,15 +41,15 @@ int main(int argc, char *argv[]) {
     vector v(n);
     for (size_type i=0; i<n; ++i)
       v(i)=i;
-    std::cout << blas::nrm2(v) << '\n';
+    std::cout << blas::asum(v) << '\n';
     matrix M(n, n);
     for (size_type j=0; j<n; ++j)
       for (size_type i=0; i<n; ++i) 
      	M(i, j)=std::complex<double>(i, j);
     auto mc=M.col(2);
     auto mr=M.row(3);
-    std::cout << blas::nrm2(mc) << '\n'
-	      << blas::nrm2(mr) << '\n';
+    std::cout << blas::asum(mc) << '\n'
+	      << blas::asum(mr) << '\n';
   }
   return EXIT_SUCCESS;
 }

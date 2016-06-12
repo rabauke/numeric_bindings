@@ -37,6 +37,15 @@ struct eigen_data_order {
     >::type type;
 };
 
+template< int Value >
+struct eigen_data_order_trans {
+    typedef typename mpl::if_<
+        mpl::bool_< Value & Eigen::RowMajorBit >,
+        tag::column_major,
+        tag::row_major
+    >::type type;
+};
+
 template< typename T, int Rows, int Cols, int Options,
           typename Id, typename Enable >
 struct adaptor< Eigen::Matrix< T, Rows, Cols, Options >, Id, Enable > {
@@ -45,6 +54,101 @@ struct adaptor< Eigen::Matrix< T, Rows, Cols, Options >, Id, Enable > {
     typedef typename eigen_size_type< Rows >::type size_type1;
     typedef typename eigen_size_type< Cols >::type size_type2;
     typedef typename eigen_data_order< Options >::type data_order;
+    typedef mpl::map<
+        mpl::pair< tag::value_type, value_type >,
+        mpl::pair< tag::entity, tag::matrix >,
+        mpl::pair< tag::size_type<1>, size_type1 >,
+        mpl::pair< tag::size_type<2>, size_type2 >,
+        mpl::pair< tag::data_structure, tag::linear_array >,
+        mpl::pair< tag::data_order, data_order >,
+        mpl::pair< tag::stride_type<1>,
+            typename if_row_major< data_order, size_type2, tag::contiguous >::type >,
+        mpl::pair< tag::stride_type<2>,
+            typename if_row_major< data_order, tag::contiguous, size_type1 >::type >
+    > property_map;
+
+    static std::ptrdiff_t size1( const Id& id ) {
+        return id.rows();
+    }
+
+    static std::ptrdiff_t size2( const Id& id ) {
+        return id.cols();
+    }
+
+    static value_type* begin_value( Id& id ) {
+        return id.data();
+    }
+
+    static value_type* end_value( Id& id ) {
+        return id.data() + id.size();
+    }
+
+    static std::ptrdiff_t stride1( const Id& id ) {
+        return id.cols();
+    }
+
+    static std::ptrdiff_t stride2( const Id& id ) {
+        return id.rows();
+    }
+
+};
+
+
+template< typename T, int Rows, int Cols, int Options,
+          typename Id, typename Enable >
+struct adaptor< Eigen::Transpose<Eigen::Matrix<T, Rows, Cols, Options > >, Id, Enable > {
+
+    typedef typename copy_const< Id, T >::type value_type;
+    typedef typename eigen_size_type< Rows >::type size_type1;
+    typedef typename eigen_size_type< Cols >::type size_type2;
+    typedef typename eigen_data_order_trans< Options >::type data_order;
+    typedef mpl::map<
+        mpl::pair< tag::value_type, value_type >,
+        mpl::pair< tag::entity, tag::matrix >,
+        mpl::pair< tag::size_type<1>, size_type1 >,
+        mpl::pair< tag::size_type<2>, size_type2 >,
+        mpl::pair< tag::data_structure, tag::linear_array >,
+        mpl::pair< tag::data_order, data_order >,
+        mpl::pair< tag::stride_type<1>,
+            typename if_row_major< data_order, size_type2, tag::contiguous >::type >,
+        mpl::pair< tag::stride_type<2>,
+            typename if_row_major< data_order, tag::contiguous, size_type1 >::type >
+    > property_map;
+
+    static std::ptrdiff_t size1( const Id& id ) {
+        return id.rows();
+    }
+
+    static std::ptrdiff_t size2( const Id& id ) {
+        return id.cols();
+    }
+
+    static value_type* begin_value( Id& id ) {
+        return id.data();
+    }
+
+    static value_type* end_value( Id& id ) {
+        return id.data() + id.size();
+    }
+
+    static std::ptrdiff_t stride1( const Id& id ) {
+        return id.cols();
+    }
+
+    static std::ptrdiff_t stride2( const Id& id ) {
+        return id.rows();
+    }
+
+};
+
+template< typename T, int Rows, int Cols, int Options,
+          typename Id, typename Enable >
+struct adaptor< Eigen::Transpose<const Eigen::Matrix<T, Rows, Cols, Options > >, Id, Enable > {
+
+    typedef typename copy_const< Id, T >::type value_type;
+    typedef typename eigen_size_type< Rows >::type size_type1;
+    typedef typename eigen_size_type< Cols >::type size_type2;
+    typedef typename eigen_data_order_trans< Options >::type data_order;
     typedef mpl::map<
         mpl::pair< tag::value_type, value_type >,
         mpl::pair< tag::entity, tag::matrix >,

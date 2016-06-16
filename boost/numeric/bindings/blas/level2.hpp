@@ -9,6 +9,18 @@
 #ifndef BOOST_NUMERIC_BINDINGS_BLAS_LEVEL2_HPP
 #define BOOST_NUMERIC_BINDINGS_BLAS_LEVEL2_HPP
 
+#include <boost/numeric/bindings/trans.hpp>
+
+namespace boost {
+  namespace numeric {
+    namespace bindings {
+      namespace blas {
+	using boost::numeric::bindings::trans;
+      }
+    }
+  }
+}
+
 #include <boost/numeric/bindings/blas/level2/gbmv.hpp>
 #include <boost/numeric/bindings/blas/level2/gemv.hpp>
 #include <boost/numeric/bindings/blas/level2/gerc.hpp>

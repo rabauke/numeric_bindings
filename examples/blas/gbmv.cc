@@ -2,8 +2,6 @@
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/numeric/ublas/banded.hpp>
-#include <Eigen/Core>
-#include <boost/numeric/bindings/trans.hpp>
 #include <boost/numeric/bindings/ublas/vector.hpp>
 #include <boost/numeric/bindings/ublas/banded.hpp>
 #include <boost/numeric/bindings/blas/level2.hpp>
@@ -13,7 +11,6 @@
 
 namespace ublas=boost::numeric::ublas;
 namespace blas=boost::numeric::bindings::blas;
-namespace bindings=boost::numeric::bindings;
 
 int main(int argc, char *argv[]) {
  {
@@ -56,7 +53,7 @@ int main(int argc, char *argv[]) {
     std::complex<double> alpha(0, 1);
     std::complex<double> beta(2, 0);
     vector y2(alpha*ublas::prod(ublas::trans(A), x)+beta*y);
-    blas::gbmv(alpha, bindings::trans(A), x, beta, y);
+    blas::gbmv(alpha, blas::trans(A), x, beta, y);
     std::cout << y << '\n'
 	      << y2 << '\n';
   }

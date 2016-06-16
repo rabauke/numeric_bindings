@@ -166,6 +166,12 @@ const typename result_of::trans<const T>::type trans( const T& underlying ) {
     return detail::trans_wrapper<const T, mpl::void_>( underlying );
 }
 
+namespace blas {
+
+  using boost::numeric::bindings::trans;
+
+} // namespace blas
+  
 } // namespace bindings
 } // namespace numeric
 } // namespace boost

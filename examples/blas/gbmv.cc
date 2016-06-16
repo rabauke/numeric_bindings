@@ -2,6 +2,7 @@
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/numeric/ublas/banded.hpp>
+#include <boost/numeric/bindings/trans.hpp>
 #include <boost/numeric/bindings/ublas/vector.hpp>
 #include <boost/numeric/bindings/ublas/banded.hpp>
 #include <boost/numeric/bindings/blas/level2.hpp>

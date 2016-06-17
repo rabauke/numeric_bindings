@@ -29,14 +29,20 @@ struct lower {
 } // namespace result_of
 
 template< typename T >
-typename result_of::lower< T >::type const lower( T& underlying ) {
+const typename result_of::lower< T >::type lower( T& underlying ) {
     return typename result_of::lower< T >::type( underlying );
 }
 
 template< typename T >
-typename result_of::lower< const T >::type const lower( const T& underlying ) {
+const typename result_of::lower< const T >::type lower( const T& underlying ) {
     return typename result_of::lower< const T >::type( underlying );
 }
+
+namespace blas {
+
+using boost::numeric::bindings::lower;
+
+} // namespace blas
 
 } // namespace bindings
 } // namespace numeric

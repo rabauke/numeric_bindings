@@ -29,14 +29,20 @@ struct upper {
 } // namespace result_of
 
 template< typename T >
-typename result_of::upper< T >::type const upper( T& underlying ) {
+const typename result_of::upper< T >::type upper( T& underlying ) {
     return typename result_of::upper< T >::type( underlying );
 }
 
 template< typename T >
-typename result_of::upper< const T >::type const upper( const T& underlying ) {
+const typename result_of::upper< const T >::type upper( const T& underlying ) {
     return typename result_of::upper< const T >::type( underlying );
 }
+
+namespace blas {
+
+using boost::numeric::bindings::upper;
+
+} // namespace blas
 
 } // namespace bindings
 } // namespace numeric

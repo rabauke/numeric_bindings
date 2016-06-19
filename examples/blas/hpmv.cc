@@ -1,15 +1,11 @@
 #include <cstdlib>
 #include <iostream>
 #include <complex>
-#include <type_traits>
-#include <algorithm>
 #define BOOST_UBLAS_NO_ELEMENT_PROXIES
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/numeric/ublas/vector.hpp>
-#include <boost/numeric/ublas/banded.hpp>
 #include <boost/numeric/ublas/hermitian.hpp>
 #include <boost/numeric/bindings/ublas/vector.hpp>
-#include <boost/numeric/bindings/ublas/banded.hpp>
 #include <boost/numeric/bindings/ublas/hermitian.hpp>
 #include <boost/numeric/bindings/blas/level2.hpp>
 #include "print.hpp"
@@ -22,25 +18,22 @@ int main(int argc, char *argv[]) {
   {
     typedef std::complex<double> complex;
     typedef ublas::vector<complex> vector;
-    typedef ublas::banded_matrix<complex, ublas::column_major> matrix;
-    typedef typename std::make_signed<vector::size_type>::type size_type;
+    typedef ublas::hermitian_matrix<complex, ublas::lower, ublas::column_major> matrix_l;
+    typedef ublas::hermitian_matrix<complex, ublas::upper, ublas::column_major> matrix_u;
+    typedef typename vector::size_type size_type;
     rand_normal<complex>::reset();
     size_type n=8;
-    matrix A(n, n, 2, 2);
-    matrix A_u(n, n, 0, 2), A_l(n, n, 2, 0);
+    matrix_l A_l(n);
+    matrix_u A_u(n);
     for (size_type j=0; j<n; ++j) {
-      A(j, j)=rand_normal<complex>::get().real();
-      A_u(j, j)=A(j, j);
-      A_l(j, j)=A(j, j);
-      for (size_type i=std::max(size_type(0), j-2); i<j; ++i) {
-	A(i, j)=rand_normal<complex>::get();
-	A(j, i)=std::conj(A(i, j));
-	A_u(i, j)=A(i, j);
-	A_l(j, i)=A(j, i);
-      }
+      A_u(j, j)=rand_normal<complex>::get().real();
+      A_l(j, j)=A_u(j, j);
+      for (size_type i=0; i<j; ++i) {
+	complex a();
+    	A_u(i, j)=rand_normal<complex>::get();
+	A_l(j, i)=std::conj(A_u(i, j));
+       }
     }
-    ublas::hermitian_adaptor<matrix, ublas::upper> B_u(A_u);
-    ublas::hermitian_adaptor<matrix, ublas::lower> B_l(A_l);
     vector x(n);
     for (size_type i=0; i<n; ++i)
       x(i)=rand_normal<complex>::get();
@@ -49,15 +42,15 @@ int main(int argc, char *argv[]) {
       y(i)=rand_normal<complex>::get();
     complex alpha(rand_normal<complex>::get());
     complex beta(rand_normal<complex>::get());
-    vector y1(alpha*ublas::prod(A, x)+beta*y);
+    vector y1(alpha*ublas::prod(A_l, x)+beta*y);
     vector y2(y);
-    blas::hbmv(alpha, B_l, x, beta, y2);
+    blas::hpmv(alpha, A_l, x, beta, y2);
     vector y3(y);
-    blas::hbmv(alpha, B_u, x, beta, y3);
+    blas::hpmv(alpha, A_u, x, beta, y3);
     std::cout << "testing boost::ublas containers\n"
     	      << "using ublas       : " << print_vec(y1) << '\n'
-	      << "using blas (lower): " << print_vec(y2) << '\n'
-	      << "using blas (upper): " << print_vec(y3) << '\n'
+    	      << "using blas (lower): " << print_vec(y2) << '\n'
+    	      << "using blas (upper): " << print_vec(y3) << '\n'
     	      << '\n';
   }
   return EXIT_SUCCESS;

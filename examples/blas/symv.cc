@@ -1,6 +1,5 @@
 #include <cstdlib>
 #include <iostream>
-#include <boost/numeric/ublas/io.hpp>
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
 #include <Eigen/Core>

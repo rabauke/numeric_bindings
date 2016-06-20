@@ -2,7 +2,6 @@
 #include <iostream>
 #include <complex>
 #define BOOST_UBLAS_NO_ELEMENT_PROXIES
-#include <boost/numeric/ublas/io.hpp>
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/numeric/ublas/hermitian.hpp>
 #include <boost/numeric/bindings/ublas/vector.hpp>

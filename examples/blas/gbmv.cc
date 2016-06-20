@@ -3,7 +3,6 @@
 #include <complex>
 #include <type_traits>
 #include <algorithm>
-#include <boost/numeric/ublas/io.hpp>
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/numeric/ublas/banded.hpp>
 #include <boost/numeric/bindings/trans.hpp>

@@ -50,10 +50,16 @@ int main(int argc, char *argv[]) {
     blas::symv(alpha, blas::lower(A_l), x, beta, y2);
     vector y3(y);
     blas::symv(alpha, blas::upper(A_u), x, beta, y3);
+    vector y4(y);
+    blas::hemv(alpha, blas::lower(A_l), x, beta, y4);
+    vector y5(y);
+    blas::hemv(alpha, blas::upper(A_u), x, beta, y5);
     std::cout << "testing boost::ublas containers\n"
-    	      << "using ublas       : " << print_vec(y1) << '\n'
-    	      << "using blas (lower): " << print_vec(y2) << '\n'
-    	      << "using blas (upper): " << print_vec(y3) << '\n'
+    	      << "using ublas            : " << print_vec(y1) << '\n'
+    	      << "using blas symv (lower): " << print_vec(y2) << '\n'
+    	      << "using blas symv (upper): " << print_vec(y3) << '\n'
+    	      << "using blas hemv (lower): " << print_vec(y4) << '\n'
+    	      << "using blas hemv (upper): " << print_vec(y5) << '\n'
     	      << '\n';
   }
   {
@@ -65,7 +71,7 @@ int main(int argc, char *argv[]) {
     matrix A(n, n), A_u(n, n), A_l(n, n);
     for (size_type j=0; j<n; ++j) {
       A(j, j)=rand_normal<double>::get();
-      A_u(j, j)=A(j, j);
+       A_u(j, j)=A(j, j);
       A_l(j, j)=A(j, j);
       for (size_type i=0; i<j; ++i) {
     	A(i, j)=rand_normal<double>::get();
@@ -89,10 +95,16 @@ int main(int argc, char *argv[]) {
     blas::symv(alpha, blas::lower(A_l), x, beta, y2);
     vector y3(y);
     blas::symv(alpha, blas::upper(A_u), x, beta, y3);
+    vector y4(y);
+    blas::hemv(alpha, blas::lower(A_l), x, beta, y4);
+    vector y5(y);
+    blas::hemv(alpha, blas::upper(A_u), x, beta, y5);
     std::cout << "testing Eigen containers\n"
-    	      << "using Eigen       : " << print_vec(y1) << '\n'
-    	      << "using blas (lower): " << print_vec(y2) << '\n'
-    	      << "using blas (upper): " << print_vec(y3) << '\n'
+    	      << "using ublas            : " << print_vec(y1) << '\n'
+    	      << "using blas symv (lower): " << print_vec(y2) << '\n'
+    	      << "using blas symv (upper): " << print_vec(y3) << '\n'
+    	      << "using blas hemv (lower): " << print_vec(y4) << '\n'
+    	      << "using blas hemv (upper): " << print_vec(y5) << '\n'
     	      << '\n';
   }
   return EXIT_SUCCESS;

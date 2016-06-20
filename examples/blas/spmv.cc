@@ -45,10 +45,16 @@ int main(int argc, char *argv[]) {
     blas::spmv(alpha, A_l, x, beta, y2);
     vector y3(y);
     blas::spmv(alpha, A_u, x, beta, y3);
+    vector y4(y);
+    blas::spmv(alpha, A_l, x, beta, y4);
+    vector y5(y);
+    blas::spmv(alpha, A_u, x, beta, y5);
     std::cout << "testing boost::ublas containers\n"
-    	      << "using ublas       : " << print_vec(y1) << '\n'
-    	      << "using blas (lower): " << print_vec(y2) << '\n'
-    	      << "using blas (upper): " << print_vec(y3) << '\n'
+    	      << "using ublas            : " << print_vec(y1) << '\n'
+    	      << "using blas spmv (lower): " << print_vec(y2) << '\n'
+    	      << "using blas spmv (upper): " << print_vec(y3) << '\n'
+    	      << "using blas hpmv (lower): " << print_vec(y4) << '\n'
+    	      << "using blas hpmv (upper): " << print_vec(y5) << '\n'
     	      << '\n';
   }
   return EXIT_SUCCESS;

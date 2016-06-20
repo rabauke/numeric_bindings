@@ -52,10 +52,16 @@ int main(int argc, char *argv[]) {
     blas::sbmv(alpha, B_l, x, beta, y2);
     vector y3(y);
     blas::sbmv(alpha, B_u, x, beta, y3);
+    vector y4(y);
+    blas::hbmv(alpha, B_l, x, beta, y4);
+    vector y5(y);
+    blas::hbmv(alpha, B_u, x, beta, y5);
     std::cout << "testing boost::ublas containers\n"
     	      << "using ublas       : " << print_vec(y1) << '\n'
-	      << "using blas (lower): " << print_vec(y2) << '\n'
-	      << "using blas (upper): " << print_vec(y3) << '\n'
+	      << "using blas sbmv (lower): " << print_vec(y2) << '\n'
+	      << "using blas sbmv (upper): " << print_vec(y3) << '\n'
+	      << "using blas hbmv (lower): " << print_vec(y4) << '\n'
+	      << "using blas hbmv (upper): " << print_vec(y5) << '\n'
     	      << '\n';
   }
   return EXIT_SUCCESS;

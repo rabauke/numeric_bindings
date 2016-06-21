@@ -62,7 +62,7 @@ namespace detail {
 // * float value-type.
 //
 inline std::ptrdiff_t iamax( const int n, const float* x, const int incx ) {
-    return cblas_isamax( n, x, incx );
+    return cblas_isamax( n, x, incx )+1;
 }
 
 //
@@ -72,7 +72,7 @@ inline std::ptrdiff_t iamax( const int n, const float* x, const int incx ) {
 //
 inline std::ptrdiff_t iamax( const int n, const double* x,
         const int incx ) {
-    return cblas_idamax( n, x, incx );
+    return cblas_idamax( n, x, incx )+1;
 }
 
 //
@@ -82,7 +82,7 @@ inline std::ptrdiff_t iamax( const int n, const double* x,
 //
 inline std::ptrdiff_t iamax( const int n, const std::complex<float>* x,
         const int incx ) {
-    return cblas_icamax( n, x, incx );
+    return cblas_icamax( n, x, incx )+1;
 }
 
 //
@@ -92,7 +92,7 @@ inline std::ptrdiff_t iamax( const int n, const std::complex<float>* x,
 //
 inline std::ptrdiff_t iamax( const int n, const std::complex<double>* x,
         const int incx ) {
-    return cblas_izamax( n, x, incx );
+    return cblas_izamax( n, x, incx )+1;
 }
 
 #elif defined BOOST_NUMERIC_BINDINGS_BLAS_CUBLAS
@@ -221,7 +221,7 @@ inline typename iamax_impl< typename bindings::value_type<
         VectorX >::type >::result_type
 iamax( const VectorX& x ) {
     return iamax_impl< typename bindings::value_type<
-            VectorX >::type >::invoke( x );
+            VectorX >::type >::invoke( x )-1;
 }
 
 } // namespace blas

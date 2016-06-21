@@ -149,7 +149,6 @@ inline std::complex<double> dot( const int n, const std::complex<double>* x,
 //
 inline float dot( const fortran_int_t n, const float* x,
         const fortran_int_t incx, const float* y, const fortran_int_t incy ) {
-    std::cerr << "real\n";
     return BLAS_SDOT( &n, x, &incx, y, &incy );
 }
 
@@ -160,7 +159,6 @@ inline float dot( const fortran_int_t n, const float* x,
 //
 inline double dot( const fortran_int_t n, const double* x,
         const fortran_int_t incx, const double* y, const fortran_int_t incy ) {
-    std::cerr << "real\n";
     return BLAS_DDOT( &n, x, &incx, y, &incy );
 }
 

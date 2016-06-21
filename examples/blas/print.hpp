@@ -6,6 +6,8 @@
 #include <boost/numeric/bindings/begin.hpp>
 #include <boost/numeric/bindings/end.hpp>
 #include <boost/numeric/bindings/size.hpp>
+#include <boost/numeric/bindings/trans_tag.hpp>
+#include <boost/numeric/bindings/data_order.hpp>
 #include <boost/numeric/bindings/blas/detail/default_order.hpp>
 
 

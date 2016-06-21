@@ -44,8 +44,8 @@ int main(int argc, char *argv[]) {
     std::cout << "ublas using vectors    : dot(v1, v2) = " << ublas::inner_prod(v1, v2) << '\n'
 	      << "blas using vectors     : dot(v1, v2) = " << blas::dot(v1, v2) << '\n'
 	      << "blas using cols & rows : dot(v1, v2) = " << blas::dot(mc, mr) << '\n'
-	      << "blas using vectors     : dotu(v1, v2) = " << blas::dotu(v1, v2) << '\n'
-	      << "blas using cols & rows : dotu(v1, v2) = " << blas::dotu(mc, mr) << '\n';
+	      << "blas using vectors     : doth(v1, v2) = " << blas::doth(v1, v2) << '\n'
+	      << "blas using cols & rows : doth(v1, v2) = " << blas::doth(mc, mr) << '\n';
   }
   {
     typedef ublas::vector<complex> vector;
@@ -68,11 +68,11 @@ int main(int argc, char *argv[]) {
     ublas::matrix_row<matrix> mr(M2, 3);
     mc=v1;
     mr=v2;
-    std::cout << "ublas using vectors    : dot(v1, v2) = " << ublas::inner_prod(v1, v2) << '\n'
-	      << "blas using vectors     : dot(v1, v2) = " << blas::dot(v1, v2) << '\n'
-	      << "blas using cols & rows : dot(v1, v2) = " << blas::dot(mc, mr) << '\n'
-	      << "blas using vectors     : dotu(v1, v2) = " << blas::dotu(v1, v2) << '\n'
-	      << "blas using cols & rows : dotu(v1, v2) = " << blas::dotu(mc, mr) << '\n';
+    std::cout << "ublas using vectors    : doth(v1, v2) = " << ublas::inner_prod(ublas::conj(v1), v2) << '\n'
+	      << "blas using vectors     : doth(v1, v2) = " << blas::doth(v1, v2) << '\n'
+	      << "blas using cols & rows : doth(v1, v2) = " << blas::doth(mc, mr) << '\n'
+	      << "blas using vectors     : dotc(v1, v2) = " << blas::dotc(v1, v2) << '\n'
+	      << "blas using cols & rows : dotc(v1, v2) = " << blas::dotc(mc, mr) << '\n';
   }
   {
     typedef Eigen::Matrix<real, Eigen::Dynamic, 1> vector;
@@ -95,11 +95,11 @@ int main(int argc, char *argv[]) {
     auto mr=M2.row(3);
     mc=v1;
     mr=v2;
-    std::cout << "eigen using vectors    : dot(v1, v2) = " << v1.transpose()*v2 << '\n'
+    std::cout << "eigen using vectors    : dot(v1, v2) = " << v1.dot(v2) << '\n'
 	      << "blas using vectors     : dot(v1, v2) = " << blas::dot(v1, v2) << '\n'
 	      << "blas using cols & rows : dot(v1, v2) = " << blas::dot(mc, mr) << '\n'
-	      << "blas using vectors     : dotu(v1, v2) = " << blas::dotu(v1, v2) << '\n'
-	      << "blas using cols & rows : dotu(v1, v2) = " << blas::dotu(mc, mr) << '\n';
+	      << "blas using vectors     : doth(v1, v2) = " << blas::doth(v1, v2) << '\n'
+	      << "blas using cols & rows : doth(v1, v2) = " << blas::doth(mc, mr) << '\n';
   }
   {
     typedef Eigen::Matrix<complex, Eigen::Dynamic, 1> vector;
@@ -122,11 +122,11 @@ int main(int argc, char *argv[]) {
     auto mr=M2.row(3);
     mc=v1;
     mr=v2;
-    std::cout << "eigen using vectors    : dot(v1, v2) = " << v1.transpose()*v2 << '\n'
-	      << "blas using vectors     : dot(v1, v2) = " << blas::dot(v1, v2) << '\n'
-	      << "blas using cols & rows : dot(v1, v2) = " << blas::dot(mc, mr) << '\n'
-	      << "blas using vectors     : dotu(v1, v2) = " << blas::dotu(v1, v2) << '\n'
-	      << "blas using cols & rows : dotu(v1, v2) = " << blas::dotu(mc, mr) << '\n';
+    std::cout << "eigen using vectors    : dot(v1, v2) = " << v1.dot(v2) << '\n'
+	      << "blas using vectors     : doth(v1, v2) = " << blas::doth(v1, v2) << '\n'
+	      << "blas using cols & rows : doth(v1, v2) = " << blas::doth(mc, mr) << '\n'
+	      << "blas using vectors     : dotc(v1, v2) = " << blas::dotc(v1, v2) << '\n'
+	      << "blas using cols & rows : dotc(v1, v2) = " << blas::dotc(mc, mr) << '\n';
   }
   return EXIT_SUCCESS;
 }

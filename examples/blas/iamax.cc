@@ -30,17 +30,17 @@ struct asum_cl<std::complex<T>> {
 };
 
 template<typename Vec>
-typename boost::numeric::bindings::remove_imaginary<typename boost::numeric::bindings::value_type<Vec>::type>::type
-asum(const Vec &v) {
+int
+iamax(const Vec &v) {
   namespace bindings=boost::numeric::bindings;
   typedef typename bindings::value_type<Vec>::type value_type;
-  typedef typename bindings::remove_imaginary<value_type>::type real_type;
   auto i=bindings::begin(v);
   auto i_end=bindings::end(v);
-  real_type res(0);
+  auto i_res=i;
   for (; i!=i_end; ++i)
-    res+=asum_cl<value_type>::asum(*i);
-  return res;
+    if (asum_cl<value_type>::asum(*i)>asum_cl<value_type>::asum(*i_res)) 
+      i_res=i;
+  return std::distance(bindings::begin(v), i_res);
 }
 
 namespace ublas=boost::numeric::ublas;
@@ -60,8 +60,8 @@ int main(int argc, char *argv[]) {
     vector v(n);
     for (size_type i=0; i<n; ++i)
       v(i)=rand_normal<real>::get();
-    std::cout << "ublas using vectors : asum(v) = " << asum(v) << '\n'
-	      << "blas using vectors  : asum(v) = " << blas::asum(v) << '\n';
+    std::cout << "ublas using vectors : iamax(v) = " << iamax(v) << '\n'
+	      << "blas using vectors  : iamax(v) = " << blas::iamax(v) << '\n';
     matrix M(n, n);
     for (size_type j=0; j<n; ++j)
       for (size_type i=0; i<n; ++i)
@@ -69,9 +69,9 @@ int main(int argc, char *argv[]) {
     ublas::matrix_column<matrix> mc(M, 2);
     ublas::matrix_row<matrix> mr(M, 3);
     mc=v;
-    std::cout << "blas using cols     : asum(v) = " << blas::asum(mc) << '\n';
+    std::cout << "blas using cols     : iamax(v) = " << blas::iamax(mc) << '\n';
     mr=v;
-    std::cout << "blas using rows     : asum(v) = " << blas::asum(mr) << '\n';
+    std::cout << "blas using rows     : iamax(v) = " << blas::iamax(mr) << '\n';
   }
   {
     typedef ublas::vector<complex> vector;
@@ -82,8 +82,8 @@ int main(int argc, char *argv[]) {
     vector v(n);
     for (size_type i=0; i<n; ++i)
       v(i)=rand_normal<complex>::get();
-    std::cout << "ublas using vectors : asum(v) = " << asum(v) << '\n'
-	      << "blas using vectors  : asum(v) = " << blas::asum(v) << '\n';
+    std::cout << "ublas using vectors : iamax(v) = " << iamax(v) << '\n'
+	      << "blas using vectors  : iamax(v) = " << blas::iamax(v) << '\n';
     matrix M(n, n);
     for (size_type j=0; j<n; ++j)
       for (size_type i=0; i<n; ++i)
@@ -91,9 +91,9 @@ int main(int argc, char *argv[]) {
     ublas::matrix_column<matrix> mc(M, 2);
     ublas::matrix_row<matrix> mr(M, 3);
     mc=v;
-    std::cout << "blas using cols     : asum(v) = " << blas::asum(mc) << '\n';
+    std::cout << "blas using cols     : iamax(v) = " << blas::iamax(mc) << '\n';
     mr=v;
-    std::cout << "blas using rows     : asum(v) = " << blas::asum(mr) << '\n';
+    std::cout << "blas using rows     : iamax(v) = " << blas::iamax(mr) << '\n';
   }
   {
     typedef Eigen::Matrix<real, Eigen::Dynamic, 1> vector;
@@ -104,8 +104,8 @@ int main(int argc, char *argv[]) {
     vector v(n);
     for (size_type i=0; i<n; ++i)
       v(i)=rand_normal<real>::get();
-    std::cout << "eigen using vectors : asum(v) = " << asum(v) << '\n'
-	      << "blas using vectors  : asum(v) = " << blas::asum(v) << '\n';
+    std::cout << "eigen using vectors : iamax(v) = " << iamax(v) << '\n'
+	      << "blas using vectors  : iamax(v) = " << blas::iamax(v) << '\n';
     matrix M(n, n);
     for (size_type j=0; j<n; ++j)
       for (size_type i=0; i<n; ++i)
@@ -113,9 +113,9 @@ int main(int argc, char *argv[]) {
     auto mc=M.col(2);
     auto mr=M.row(3);
     mc=v;
-    std::cout << "blas using cols     : asum(v) = " << blas::asum(mc) << '\n';
+    std::cout << "blas using cols     : iamax(v) = " << blas::iamax(mc) << '\n';
     mr=v;
-    std::cout << "blas using rows     : asum(v) = " << blas::asum(mr) << '\n';
+    std::cout << "blas using rows     : iamax(v) = " << blas::iamax(mr) << '\n';
   }
   {
     typedef Eigen::Matrix<complex, Eigen::Dynamic, 1> vector;
@@ -126,8 +126,8 @@ int main(int argc, char *argv[]) {
     vector v(n);
     for (size_type i=0; i<n; ++i)
       v(i)=rand_normal<complex>::get();
-    std::cout << "eigen using vectors : asum(v) = " << asum(v) << '\n'
-	      << "blas using vectors  : asum(v) = " << blas::asum(v) << '\n';
+    std::cout << "eigen using vectors : iamax(v) = " << iamax(v) << '\n'
+	      << "blas using vectors  : iamax(v) = " << blas::iamax(v) << '\n';
     matrix M(n, n);
     for (size_type j=0; j<n; ++j)
       for (size_type i=0; i<n; ++i)
@@ -135,9 +135,9 @@ int main(int argc, char *argv[]) {
     auto mc=M.col(2);
     auto mr=M.row(3);
     mc=v;
-    std::cout << "blas using cols     : asum(v) = " << blas::asum(mc) << '\n';
+    std::cout << "blas using cols     : iamax(v) = " << blas::iamax(mc) << '\n';
     mr=v;
-    std::cout << "blas using rows     : asum(v) = " << blas::asum(mr) << '\n';
+    std::cout << "blas using rows     : iamax(v) = " << blas::iamax(mr) << '\n';
   }
   return EXIT_SUCCESS;
 }

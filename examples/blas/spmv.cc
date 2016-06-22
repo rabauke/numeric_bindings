@@ -27,7 +27,6 @@ int main(int argc, char *argv[]) {
       A_u(j, j)=rand_normal<double>::get();
       A_l(j, j)=A_u(j, j);
       for (size_type i=0; i<j; ++i) {
-	double a();
     	A_u(i, j)=rand_normal<double>::get();
 	A_l(j, i)=A_u(i, j);
        }

@@ -4,7 +4,7 @@ set(CMAKE_CXX_EXTENSIONS off)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include_directories(../../ ../../../../eigen/)
+include_directories(../../ /usr/include/eigen3)
 
 project(Blas_tests)
 
@@ -45,3 +45,5 @@ add_executable(sbmv sbmv.cc)
 target_link_libraries(sbmv blas dl)
 add_executable(spmv spmv.cc)
 target_link_libraries(spmv blas dl)
+add_executable(trmv trmv.cc)
+target_link_libraries(trmv blas dl)

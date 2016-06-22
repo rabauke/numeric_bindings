@@ -37,6 +37,12 @@ typename result_of::herm< const T >::type const herm( const T& underlying ) {
     return typename result_of::herm< const T >::type( underlying );
 }
 
+namespace blas {
+
+  using boost::numeric::bindings::herm;
+
+} // namespace blas
+
 } // namespace bindings
 } // namespace numeric
 } // namespace boost

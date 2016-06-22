@@ -41,6 +41,12 @@ typename result_of::conj< const T >::type const conj( const T& t ) {
     return typename result_of::conj< const T >::type( t );
 }
 
+namespace blas {
+
+  using boost::numeric::bindings::conj;
+
+} // namespace blas
+
 } // namespace bindings
 } // namespace numeric
 } // namespace boost

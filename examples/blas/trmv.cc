@@ -9,6 +9,8 @@
 #include <boost/numeric/bindings/blas/level2.hpp>
 #include <boost/numeric/bindings/lower.hpp>
 #include <boost/numeric/bindings/upper.hpp>
+#include <boost/numeric/bindings/unit_lower.hpp>
+#include <boost/numeric/bindings/unit_upper.hpp>
 #include <boost/numeric/bindings/trans.hpp>
 #include <boost/numeric/bindings/herm.hpp>
 #include <boost/numeric/bindings/conj.hpp>
@@ -95,6 +97,66 @@ int main(int argc, char *argv[]) {
       std::cout << "testing boost::ublas containers\n"
 		<< "using ublas (htrans, upper): " << print_vec(x1) << '\n'
 		<< "using blas  (htrans, upper): " << print_vec(x2) << '\n'
+		<< '\n';
+    }
+
+    for (size_type i=0; i<n; ++i) {
+      A_l(i, i)=1;
+      A_u(i, i)=1;
+    }
+
+    {
+      vector x1(ublas::prod(A_l, x));
+      vector x2(x);
+      blas::trmv(blas::unit_lower(A_l), x2);
+      std::cout << "testing boost::ublas containers\n"
+		<< "using ublas (unit_lower): " << print_vec(x1) << '\n'
+		<< "using blas  (unit_lower): " << print_vec(x2) << '\n'
+		<< '\n';
+    }
+    {
+      vector x1(ublas::prod(A_u, x));
+      vector x2(x);
+      blas::trmv(blas::unit_upper(A_u), x2);
+      std::cout << "testing boost::ublas containers\n"
+		<< "using ublas (unit_upper): " << print_vec(x1) << '\n'
+		<< "using blas  (unit_upper): " << print_vec(x2) << '\n'
+		<< '\n';
+    }
+    {
+      vector x1(ublas::prod(ublas::trans(A_l), x));
+      vector x2(x);
+      blas::trmv(blas::trans(blas::unit_lower(A_l)), x2);
+      std::cout << "testing boost::ublas containers\n"
+		<< "using ublas (trans, unit_lower): " << print_vec(x1) << '\n'
+		<< "using blas  (trans, unit_lower): " << print_vec(x2) << '\n'
+		<< '\n';
+    }
+    {
+      vector x1(ublas::prod(ublas::trans(A_u), x));
+      vector x2(x);
+      blas::trmv(blas::trans(blas::unit_upper(A_u)), x2);
+      std::cout << "testing boost::ublas containers\n"
+		<< "using ublas (trans, unit_upper): " << print_vec(x1) << '\n'
+		<< "using blas  (trans, unit_upper): " << print_vec(x2) << '\n'
+		<< '\n';
+    }
+    {
+      vector x1(ublas::prod(ublas::herm(A_l), x));
+      vector x2(x);
+      blas::trmv(blas::conj(blas::unit_lower(A_l)), x2);
+      std::cout << "testing boost::ublas containers\n"
+		<< "using ublas (htrans, unit_lower): " << print_vec(x1) << '\n'
+		<< "using blas  (htrans, unit_lower): " << print_vec(x2) << '\n'
+		<< '\n';
+    }
+    {
+      vector x1(ublas::prod(ublas::herm(A_u), x));
+      vector x2(x);
+      blas::trmv(blas::conj(blas::unit_upper(A_u)), x2);
+      std::cout << "testing boost::ublas containers\n"
+		<< "using ublas (htrans, unit_upper): " << print_vec(x1) << '\n'
+		<< "using blas  (htrans, unit_upper): " << print_vec(x2) << '\n'
 		<< '\n';
     }
   }

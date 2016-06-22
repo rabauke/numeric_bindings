@@ -38,6 +38,13 @@ typename result_of::unit_lower< const T >::type const unit_lower( const T& under
     return typename result_of::unit_lower< const T >::type( underlying );
 }
 
+namespace blas {
+
+using boost::numeric::bindings::unit_lower;
+
+} // namespace blas
+
+
 } // namespace bindings
 } // namespace numeric
 } // namespace boost

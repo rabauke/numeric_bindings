@@ -38,6 +38,12 @@ typename result_of::unit_upper< const T >::type const unit_upper( const T& under
     return typename result_of::unit_upper< const T >::type( underlying );
 }
 
+namespace blas {
+
+using boost::numeric::bindings::unit_upper;
+
+} // namespace blas
+
 } // namespace bindings
 } // namespace numeric
 } // namespace boost

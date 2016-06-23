@@ -12,6 +12,7 @@
 #include <boost/numeric/bindings/blas/level2/gbmv.hpp>
 #include <boost/numeric/bindings/blas/level2/gemv.hpp>
 #include <boost/numeric/bindings/blas/level2/gerc.hpp>
+#include <boost/numeric/bindings/blas/level2/gerh.hpp>
 #include <boost/numeric/bindings/blas/level2/ger.hpp>
 #include <boost/numeric/bindings/blas/level2/geru.hpp>
 #include <boost/numeric/bindings/blas/level2/hbmv.hpp>

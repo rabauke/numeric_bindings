@@ -11,8 +11,8 @@
 // PLEASE DO NOT EDIT!
 //
 
-#ifndef BOOST_NUMERIC_BINDINGS_BLAS_LEVEL2_GER_HPP
-#define BOOST_NUMERIC_BINDINGS_BLAS_LEVEL2_GER_HPP
+#ifndef BOOST_NUMERIC_BINDINGS_BLAS_LEVEL2_GERH_HPP
+#define BOOST_NUMERIC_BINDINGS_BLAS_LEVEL2_GERH_HPP
 
 #include <boost/assert.hpp>
 #include <boost/numeric/bindings/begin.hpp>
@@ -63,7 +63,7 @@ namespace detail {
 // * float value-type.
 //
 template< typename Order >
-inline void ger( const Order, const int m, const int n, const float alpha,
+inline void gerh( const Order, const int m, const int n, const float alpha,
         const float* x, const int incx, const float* y, const int incy,
         float* a, const int lda ) {
     cblas_sger( cblas_option< Order >::value, m, n, alpha, x, incx, y, incy,
@@ -76,7 +76,7 @@ inline void ger( const Order, const int m, const int n, const float alpha,
 // * double value-type.
 //
 template< typename Order >
-inline void ger( const Order, const int m, const int n, const double alpha,
+inline void gerh( const Order, const int m, const int n, const double alpha,
         const double* x, const int incx, const double* y, const int incy,
         double* a, const int lda ) {
     cblas_dger( cblas_option< Order >::value, m, n, alpha, x, incx, y, incy,
@@ -89,11 +89,11 @@ inline void ger( const Order, const int m, const int n, const double alpha,
 // * complex<float> value-type.
 //
 template< typename Order >
-inline void ger( const Order, const int m, const int n,
+inline void gerh( const Order, const int m, const int n,
         const std::complex<float> alpha, const std::complex<float>* x,
         const int incx, const std::complex<float>* y, const int incy,
         std::complex<float>* a, const int lda ) {
-    cblas_cgeru( cblas_option< Order >::value, m, n, &alpha, x, incx, y, incy,
+    cblas_cgerc( cblas_option< Order >::value, m, n, &alpha, x, incx, y, incy,
             a, lda );
 }
 
@@ -103,11 +103,11 @@ inline void ger( const Order, const int m, const int n,
 // * complex<double> value-type.
 //
 template< typename Order >
-inline void ger( const Order, const int m, const int n,
+inline void gerh( const Order, const int m, const int n,
         const std::complex<double> alpha, const std::complex<double>* x,
         const int incx, const std::complex<double>* y, const int incy,
         std::complex<double>* a, const int lda ) {
-    cblas_zgeru( cblas_option< Order >::value, m, n, &alpha, x, incx, y, incy,
+    cblas_zgerc( cblas_option< Order >::value, m, n, &alpha, x, incx, y, incy,
             a, lda );
 }
 
@@ -118,7 +118,7 @@ inline void ger( const Order, const int m, const int n,
 // * float value-type.
 //
 template< typename Order >
-inline void ger( const Order, const int m, const int n, const float alpha,
+inline void gerh( const Order, const int m, const int n, const float alpha,
         const float* x, const int incx, const float* y, const int incy,
         float* a, const int lda ) {
     BOOST_STATIC_ASSERT( (is_same<Order, tag::column_major>::value) );
@@ -131,7 +131,7 @@ inline void ger( const Order, const int m, const int n, const float alpha,
 // * double value-type.
 //
 template< typename Order >
-inline void ger( const Order, const int m, const int n, const double alpha,
+inline void gerh( const Order, const int m, const int n, const double alpha,
         const double* x, const int incx, const double* y, const int incy,
         double* a, const int lda ) {
     BOOST_STATIC_ASSERT( (is_same<Order, tag::column_major>::value) );
@@ -144,12 +144,12 @@ inline void ger( const Order, const int m, const int n, const double alpha,
 // * complex<float> value-type.
 //
 template< typename Order >
-inline void ger( const Order, const int m, const int n,
+inline void gerh( const Order, const int m, const int n,
         const std::complex<float> alpha, const std::complex<float>* x,
         const int incx, const std::complex<float>* y, const int incy,
         std::complex<float>* a, const int lda ) {
     BOOST_STATIC_ASSERT( (is_same<Order, tag::column_major>::value) );
-    cublasCgeru( m, n, alpha, x, incx, y, incy, a, lda );
+    cublasCgerc( m, n, alpha, x, incx, y, incy, a, lda );
 }
 
 //
@@ -158,12 +158,12 @@ inline void ger( const Order, const int m, const int n,
 // * complex<double> value-type.
 //
 template< typename Order >
-inline void ger( const Order, const int m, const int n,
+inline void gerh( const Order, const int m, const int n,
         const std::complex<double> alpha, const std::complex<double>* x,
         const int incx, const std::complex<double>* y, const int incy,
         std::complex<double>* a, const int lda ) {
     BOOST_STATIC_ASSERT( (is_same<Order, tag::column_major>::value) );
-    cublasZgeru( m, n, alpha, x, incx, y, incy, a, lda );
+    cublasZgerc( m, n, alpha, x, incx, y, incy, a, lda );
 }
 
 #else
@@ -173,7 +173,7 @@ inline void ger( const Order, const int m, const int n,
 // * float value-type.
 //
 template< typename Order >
-inline void ger( const Order, const fortran_int_t m, const fortran_int_t n,
+inline void gerh( const Order, const fortran_int_t m, const fortran_int_t n,
         const float alpha, const float* x, const fortran_int_t incx,
         const float* y, const fortran_int_t incy, float* a,
         const fortran_int_t lda ) {
@@ -187,7 +187,7 @@ inline void ger( const Order, const fortran_int_t m, const fortran_int_t n,
 // * double value-type.
 //
 template< typename Order >
-inline void ger( const Order, const fortran_int_t m, const fortran_int_t n,
+inline void gerh( const Order, const fortran_int_t m, const fortran_int_t n,
         const double alpha, const double* x, const fortran_int_t incx,
         const double* y, const fortran_int_t incy, double* a,
         const fortran_int_t lda ) {
@@ -201,13 +201,13 @@ inline void ger( const Order, const fortran_int_t m, const fortran_int_t n,
 // * complex<float> value-type.
 //
 template< typename Order >
-inline void ger( const Order, const fortran_int_t m, const fortran_int_t n,
+inline void gerh( const Order, const fortran_int_t m, const fortran_int_t n,
         const std::complex<float> alpha, const std::complex<float>* x,
         const fortran_int_t incx, const std::complex<float>* y,
         const fortran_int_t incy, std::complex<float>* a,
         const fortran_int_t lda ) {
     BOOST_STATIC_ASSERT( (is_same<Order, tag::column_major>::value) );
-    BLAS_CGERU( &m, &n, &alpha, x, &incx, y, &incy, a, &lda );
+    BLAS_CGERC( &m, &n, &alpha, x, &incx, y, &incy, a, &lda );
 }
 
 //
@@ -216,13 +216,13 @@ inline void ger( const Order, const fortran_int_t m, const fortran_int_t n,
 // * complex<double> value-type.
 //
 template< typename Order >
-inline void ger( const Order, const fortran_int_t m, const fortran_int_t n,
+inline void gerh( const Order, const fortran_int_t m, const fortran_int_t n,
         const std::complex<double> alpha, const std::complex<double>* x,
         const fortran_int_t incx, const std::complex<double>* y,
         const fortran_int_t incy, std::complex<double>* a,
         const fortran_int_t lda ) {
     BOOST_STATIC_ASSERT( (is_same<Order, tag::column_major>::value) );
-    BLAS_ZGERU( &m, &n, &alpha, x, &incx, y, &incy, a, &lda );
+    BLAS_ZGERC( &m, &n, &alpha, x, &incx, y, &incy, a, &lda );
 }
 
 #endif
@@ -231,12 +231,13 @@ inline void ger( const Order, const fortran_int_t m, const fortran_int_t n,
 
 //
 // Value-type based template class. Use this class if you need a type
-// for dispatching to ger.
+// for dispatching to gerh.
 //
 template< typename Value >
-struct ger_impl {
+struct gerh_impl {
 
     typedef Value value_type;
+    typedef typename remove_imaginary< Value >::type real_type;
     typedef void result_type;
 
     //
@@ -263,7 +264,7 @@ struct ger_impl {
         BOOST_STATIC_ASSERT( (bindings::is_mutable< MatrixA >::value) );
         BOOST_ASSERT( bindings::size_minor(a) == 1 ||
                 bindings::stride_minor(a) == 1 );
-        detail::ger( order(), bindings::size_row(a),
+        detail::gerh( order(), bindings::size_row(a),
                 bindings::size_column(a), alpha, bindings::begin_value(x),
                 bindings::stride(x), bindings::begin_value(y),
                 bindings::stride(y), bindings::begin_value(a),
@@ -274,21 +275,20 @@ struct ger_impl {
 //
 // Functions for direct use. These functions are overloaded for temporaries,
 // so that wrapped types can still be passed and used for write-access. Calls
-// to these functions are passed to the ger_impl classes. In the 
+// to these functions are passed to the gerh_impl classes. In the 
 // documentation, the const-overloads are collapsed to avoid a large number of
 // prototypes which are very similar.
 //
 
 //
-// Overloaded function for ger. Its overload differs for
+// Overloaded function for gerh. Its overload differs for
 //
 template< typename VectorX, typename VectorY, typename MatrixA >
-inline typename ger_impl< typename bindings::value_type<
+inline typename gerh_impl< typename bindings::value_type<
         VectorX >::type >::result_type
-ger( const typename bindings::value_type<VectorX >::type alpha,
-        const VectorX& x, const VectorY& y,
-        MatrixA& a ) {
-    ger_impl< typename bindings::value_type<
+gerh( const typename bindings::value_type< VectorX >::type alpha,
+        const VectorX& x, const VectorY& y, MatrixA& a ) {
+    gerh_impl< typename bindings::value_type<
             VectorX >::type >::invoke( alpha, x, y, a );
 }
 

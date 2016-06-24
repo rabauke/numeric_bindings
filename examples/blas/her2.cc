@@ -3,13 +3,10 @@
 #include <complex>
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
-#include <Eigen/Core>
 #include <boost/numeric/bindings/lower.hpp>
 #include <boost/numeric/bindings/upper.hpp>
 #include <boost/numeric/bindings/ublas/vector.hpp>
 #include <boost/numeric/bindings/ublas/matrix.hpp>
-#include <boost/numeric/bindings/eigen/vector.hpp>
-#include <boost/numeric/bindings/eigen/matrix.hpp>
 #include <boost/numeric/bindings/blas/level2.hpp>
 #include "print.hpp"
 #include "random.hpp"

@@ -80,3 +80,5 @@ target_link_libraries(spr2 blas dl)
 
 add_executable(gemm gemm.cc)
 target_link_libraries(gemm blas dl)
+add_executable(symm symm.cc)
+target_link_libraries(symm blas dl)

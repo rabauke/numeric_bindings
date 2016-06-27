@@ -31,11 +31,13 @@ int main(int argc, char *argv[]) {
       matrix A(m, m);
       matrix B(m, n);
       matrix C(m, n);
-      for (size_type j=0; j<m; ++j)
-	for (size_type i=0; i<=j; ++i) {
+      for (size_type j=0; j<m; ++j) {
+	for (size_type i=0; i<j; ++i) {
 	  A(i, j)=rand_normal<complex>::get();
-	  A(j, i)=A(i, j);
+	  A(j, i)=std::conj(A(i, j));
 	}
+        A(j, j)=rand_normal<complex>::get().real();
+      }
       for (size_type j=0; j<n; ++j)
 	for (size_type i=0; i<m; ++i) 
 	  B(i, j)=rand_normal<complex>::get();
@@ -46,7 +48,7 @@ int main(int argc, char *argv[]) {
       complex beta(rand_normal<complex>::get());
       matrix C1(alpha*ublas::prod(A, B)+beta*C);
       matrix C2(C);
-      blas::symm(blas::left(), alpha, blas::upper(A), B, beta, C2);
+      blas::hemm(blas::left(), alpha, blas::upper(A), B, beta, C2);
       std::cout << "testing boost::ublas containers\n"
 		<< "using ublas (left multiply):\n" << print_mat(C1) << '\n'
 		<< "using blas (left multiply):\n" << print_mat(C2) << '\n'
@@ -57,11 +59,13 @@ int main(int argc, char *argv[]) {
       matrix A(n, n);
       matrix B(m, n);
       matrix C(m, n);
-      for (size_type j=0; j<n; ++j)
-	for (size_type i=0; i<=j; ++i) {
+      for (size_type j=0; j<n; ++j) {
+	for (size_type i=0; i<j; ++i) {
 	  A(i, j)=rand_normal<complex>::get();
-	  A(j, i)=A(i, j);
+	  A(j, i)=std::conj(A(i, j));
 	}
+	A(j, j)=rand_normal<complex>::get().real();
+      }
       for (size_type j=0; j<n; ++j)
 	for (size_type i=0; i<m; ++i) 
 	  B(i, j)=rand_normal<complex>::get();
@@ -72,7 +76,7 @@ int main(int argc, char *argv[]) {
       complex beta(rand_normal<complex>::get());
       matrix C1(alpha*ublas::prod(B, A)+beta*C);
       matrix C2(C);
-      blas::symm(blas::right(), alpha, blas::upper(A), B, beta, C2);
+      blas::hemm(blas::right(), alpha, blas::upper(A), B, beta, C2);
       std::cout << "testing boost::ublas containers\n"
 		<< "using ublas (right multiply):\n" << print_mat(C1) << '\n'
 		<< "using blas (right multiply):\n" << print_mat(C2) << '\n'
@@ -90,11 +94,13 @@ int main(int argc, char *argv[]) {
       matrix A(m, m);
       matrix B(m, n);
       matrix C(m, n);
-      for (size_type j=0; j<m; ++j)
-	for (size_type i=0; i<=j; ++i) {
+      for (size_type j=0; j<m; ++j) {
+	for (size_type i=0; i<j; ++i) {
 	  A(i, j)=rand_normal<complex>::get();
-	  A(j, i)=A(i, j);
+	  A(j, i)=std::conj(A(i, j));
 	}
+	A(j, j)=rand_normal<complex>::get().real();
+      }
       for (size_type j=0; j<n; ++j)
 	for (size_type i=0; i<m; ++i) 
 	  B(i, j)=rand_normal<complex>::get();
@@ -105,7 +111,7 @@ int main(int argc, char *argv[]) {
       complex beta(rand_normal<complex>::get());
       matrix C1(alpha*A*B+beta*C);
       matrix C2(C);
-      blas::symm(blas::left(), alpha, blas::upper(A), B, beta, C2);
+      blas::hemm(blas::left(), alpha, blas::upper(A), B, beta, C2);
       std::cout << "testing Eigen containers\n"
 		<< "using Eigen (left multiply):\n" << print_mat(C1) << '\n'
 		<< "using blas (left multiply):\n" << print_mat(C2) << '\n'
@@ -116,11 +122,13 @@ int main(int argc, char *argv[]) {
       matrix A(n, n);
       matrix B(m, n);
       matrix C(m, n);
-      for (size_type j=0; j<n; ++j)
-	for (size_type i=0; i<=j; ++i) {
+      for (size_type j=0; j<n; ++j) {
+	for (size_type i=0; i<j; ++i) {
 	  A(i, j)=rand_normal<complex>::get();
-	  A(j, i)=A(i, j);
+	  A(j, i)=std::conj(A(i, j));
 	}
+	A(j, j)=rand_normal<complex>::get().real();
+      }
       for (size_type j=0; j<n; ++j)
 	for (size_type i=0; i<m; ++i) 
 	  B(i, j)=rand_normal<complex>::get();
@@ -131,7 +139,7 @@ int main(int argc, char *argv[]) {
       complex beta(rand_normal<complex>::get());
       matrix C1(alpha*B*A+beta*C);
       matrix C2(C);
-      blas::symm(blas::right(), alpha, blas::upper(A), B, beta, C2);
+      blas::hemm(blas::right(), alpha, blas::upper(A), B, beta, C2);
       std::cout << "testing Eigen containers\n"
 		<< "using Eigen (right multiply):\n" << print_mat(C1) << '\n'
 		<< "using blas (right multiply):\n" << print_mat(C2) << '\n'

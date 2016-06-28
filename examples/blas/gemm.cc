@@ -1,12 +1,9 @@
 #include <cstdlib>
 #include <iostream>
 #include <complex>
-#include <boost/numeric/ublas/vector.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
 #include <Eigen/Core>
-#include <boost/numeric/bindings/ublas/vector.hpp>
 #include <boost/numeric/bindings/ublas/matrix.hpp>
-#include <boost/numeric/bindings/eigen/vector.hpp>
 #include <boost/numeric/bindings/eigen/matrix.hpp>
 #include <boost/numeric/bindings/blas/level3.hpp>
 #include <boost/numeric/bindings/trans.hpp>
@@ -20,9 +17,8 @@ namespace blas=boost::numeric::bindings::blas;
 int main(int argc, char *argv[]) {
   {
     typedef std::complex<double> complex;
-    typedef ublas::vector<complex> vector;
     typedef ublas::matrix<complex, ublas::column_major> matrix;
-    typedef vector::size_type size_type;
+    typedef matrix::size_type size_type;
     rand_normal<complex>::reset();
     size_type m=6, k=7, n=8;
     matrix A(m, k);
@@ -59,7 +55,6 @@ int main(int argc, char *argv[]) {
   }
   {
     typedef std::complex<double> complex;
-    typedef Eigen::Matrix<complex, Eigen::Dynamic, 1> vector;
     typedef Eigen::Matrix<complex, Eigen::Dynamic, Eigen::Dynamic> matrix;
     typedef int size_type;
     rand_normal<complex>::reset();

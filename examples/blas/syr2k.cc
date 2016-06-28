@@ -20,10 +20,12 @@ int main(int argc, char *argv[]) {
     typedef matrix::size_type size_type;
     rand_normal<complex>::reset();
     size_type n=8;
-    matrix A(n, n), C(n, n);
-    for (size_type j=0; j<n; ++j) 
-      for (size_type i=0; i<n; ++i)
+    matrix A(n, n), B(n, n), C(n, n);
+    for (size_type j=0; j<n; ++j)
+      for (size_type i=0; i<n; ++i) {
 	A(i, j)=rand_normal<complex>::get();
+	B(i, j)=rand_normal<complex>::get();
+      }
     for (size_type j=0; j<n; ++j)
       for (size_type i=0; i<=j; ++i) {
 	C(i, j)=rand_normal<complex>::get();
@@ -32,52 +34,60 @@ int main(int argc, char *argv[]) {
     complex alpha(rand_normal<complex>::get());
     complex beta(rand_normal<complex>::get());
     {
-      matrix C1(alpha*ublas::prod(A, ublas::trans(A))+beta*C);
+      matrix C1(alpha*ublas::prod(A, ublas::trans(B))+
+		alpha*ublas::prod(B, ublas::trans(A))+
+		beta*C);
       for (size_type j=0; j<n; ++j)
 	for (size_type i=j+1; i<n; ++i)
 	  C1(i, j)=C(i, j);
       matrix C2(C);
-      blas::syrk(alpha, A, beta, blas::upper(C2));
+      blas::syr2k(alpha, A, B, beta, blas::upper(C2));
       std::cout << "testing boost::ublas containers\n"
 		<< "using ublas (A right trans, C upper):\n" << print_mat(C1) << '\n'
 		<< "using blas (A right trans, C upper):\n" << print_mat(C2) << '\n'
 		<< '\n';
     }
     {
-      matrix C1(alpha*ublas::prod(A, ublas::trans(A))+beta*C);
+      matrix C1(alpha*ublas::prod(A, ublas::trans(B))+
+		alpha*ublas::prod(B, ublas::trans(A))+
+		beta*C);
       for (size_type j=0; j<n; ++j)
 	for (size_type i=0; i<j; ++i)
 	  C1(i, j)=C(i, j);
       matrix C2(C);
-      blas::syrk(alpha, A, beta, blas::lower(C2));
+      blas::syr2k(alpha, A, B, beta, blas::lower(C2));
       std::cout << "testing boost::ublas containers\n"
-		<< "using ublas (A right trans, C lower):\n" << print_mat(C1) << '\n'
-		<< "using blas (A right trans, C lower):\n" << print_mat(C2) << '\n'
-		<< '\n';
+    		<< "using ublas (A right trans, C lower):\n" << print_mat(C1) << '\n'
+    		<< "using blas (A right trans, C lower):\n" << print_mat(C2) << '\n'
+    		<< '\n';
     }
     {
-      matrix C1(alpha*ublas::prod(ublas::trans(A), A)+beta*C);
+      matrix C1(alpha*ublas::prod(ublas::trans(A), B)+
+		alpha*ublas::prod(ublas::trans(B), A)+
+		beta*C);
       for (size_type j=0; j<n; ++j)
-	for (size_type i=j+1; i<n; ++i)
-	  C1(i, j)=C(i, j);
+    	for (size_type i=j+1; i<n; ++i)
+    	  C1(i, j)=C(i, j);
       matrix C2(C);
-      blas::syrk(alpha, blas::trans(A), beta, blas::upper(C2));
+      blas::syr2k(alpha, blas::trans(A), B, beta, blas::upper(C2));
       std::cout << "testing boost::ublas containers\n"
-		<< "using ublas (A left trans, C upper):\n" << print_mat(C1) << '\n'
-		<< "using blas (A left trans, C upper):\n" << print_mat(C2) << '\n'
-		<< '\n';
+    		<< "using ublas (A left trans, C upper):\n" << print_mat(C1) << '\n'
+    		<< "using blas (A left trans, C upper):\n" << print_mat(C2) << '\n'
+    		<< '\n';
     }
     {
-      matrix C1(alpha*ublas::prod(ublas::trans(A), A)+beta*C);
+      matrix C1(alpha*ublas::prod(ublas::trans(A), B)+
+		alpha*ublas::prod(ublas::trans(B), A)+
+		beta*C);
       for (size_type j=0; j<n; ++j)
-	for (size_type i=0; i<j; ++i)
-	  C1(i, j)=C(i, j);
+    	for (size_type i=0; i<j; ++i)
+    	  C1(i, j)=C(i, j);
       matrix C2(C);
-      blas::syrk(alpha, blas::trans(A), beta, blas::lower(C2));
+      blas::syr2k(alpha, blas::trans(A), B, beta, blas::lower(C2));
       std::cout << "testing boost::ublas containers\n"
-		<< "using ublas (A left trans, C lower):\n" << print_mat(C1) << '\n'
-		<< "using blas (A left trans, C lower):\n" << print_mat(C2) << '\n'
-		<< '\n';
+    		<< "using ublas (A left trans, C lower):\n" << print_mat(C1) << '\n'
+    		<< "using blas (A left trans, C lower):\n" << print_mat(C2) << '\n'
+    		<< '\n';
     }
   }
   return EXIT_SUCCESS;

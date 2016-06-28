@@ -12,7 +12,6 @@
 #include <boost/numeric/bindings/unit_lower.hpp>
 #include <boost/numeric/bindings/unit_upper.hpp>
 #include <boost/numeric/bindings/trans.hpp>
-#include <boost/numeric/bindings/herm.hpp>
 #include <boost/numeric/bindings/conj.hpp>
 #include "print.hpp"
 #include "random.hpp"

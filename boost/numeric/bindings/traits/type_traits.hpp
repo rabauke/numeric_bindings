@@ -46,6 +46,18 @@ namespace boost { namespace numeric { namespace bindings { namespace traits {
     typedef double real_type; 
   };
 
+
+  template<typename T>
+  inline T real(const std::complex<T> &x) {
+    return x.real();
+  }
+
+  template<typename T>
+  inline T imag(const std::complex<T> &x) {
+    return x.imag();
+  }
+
+
 }}}}
 
 #endif // BOOST_NUMERIC_BINDINGS_TRAITS_TYPE_TRAITS_HPP

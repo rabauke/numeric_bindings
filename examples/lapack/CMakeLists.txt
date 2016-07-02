@@ -10,3 +10,6 @@ project(Lapack_tests)
 
 add_executable(gesv gesv.cc)
 target_link_libraries(gesv blas lapack dl)
+
+add_executable(gbsv gbsv.cc)
+target_link_libraries(gbsv blas lapack dl)

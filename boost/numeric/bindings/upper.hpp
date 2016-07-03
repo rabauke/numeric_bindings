@@ -44,6 +44,12 @@ using boost::numeric::bindings::upper;
 
 } // namespace blas
 
+namespace lapack {
+
+using boost::numeric::bindings::upper;
+
+} // namespace lapack
+
 } // namespace bindings
 } // namespace numeric
 } // namespace boost

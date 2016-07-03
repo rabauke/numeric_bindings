@@ -27,9 +27,10 @@ int main(int argc, char *argv[]) {
   int n=128;
   matrix A(n, n), A_bak(n, n);
   for (size_type j=0; j<n; ++j)
-    for (size_type i=0; i<j; ++i) {
+    for (size_type i=0; i<=j; ++i) {
       A(i, j)=rand_normal<complex>::get();
-      A(j, i)=0;
+      if (i<j)
+	A(j, i)=0;
       A_bak(i, j)=A(i, j);
       A_bak(j, i)=A(i, j);
     }

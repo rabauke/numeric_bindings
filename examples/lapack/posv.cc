@@ -25,13 +25,14 @@ int main(int argc, char *argv[]) {
   typedef typename vector::size_type size_type;
 
   rand_normal<complex>::reset();
-  int n=12;
+  int n=128;
   // generate a random unitary matrix
   matrix U(n, n);
   for (size_type j=0; j<n; ++j)
     for (size_type i=0; i<n; ++i)
       U(i, j)=i==j ? complex(1) : complex(0);
-  for (int k=0; k<2; ++k) {
+  for (int k=0; k<n*n; ++k) {
+    // generate a random 2x2 unitary matrix
     double phi(rand_uniform<double>::get(0, 1.5707963267948966192));
     double alpha(rand_uniform<double>::get(0, 6.2831853071795864770));
     double psi(rand_uniform<double>::get(0, 6.2831853071795864770));
@@ -46,6 +47,7 @@ int main(int argc, char *argv[]) {
     do {
       j1=static_cast<int>(rand_uniform<double>::get(0, n));
     } while (j0==j1);
+    std::cout << j0 << '\t' << j1 << '\n';
     for (size_type i=0; i<n; ++i) {
       vector Uc(2);
       Uc(0)=U(j0, i);
@@ -56,8 +58,6 @@ int main(int argc, char *argv[]) {
     }
   }
   matrix R(ublas::prod(ublas::trans(ublas::conj(U)), U));
-  std::cout << print_mat(U) << '\n'
-	    << print_mat(R) << '\n';
   // generate random positive definite hermitian matrix
   matrix A(n, n);
   for (size_type j=0; j<n; ++j)
@@ -69,16 +69,15 @@ int main(int argc, char *argv[]) {
 	} while (A(i, j)==complex(0));
       else
 	A(i, j)=complex(0);
+  // apply a random unitary transform to A
   A=ublas::prod(ublas::trans(ublas::conj(U)), A);
   A=ublas::prod(A, U);
-  std::cout << print_mat(A) << '\n';
   matrix A_bak(A);
   vector b(n);
   for (size_type i=0; i<n; ++i)
     b(i)=rand_normal<complex>::get();
   vector x(b);
-  p_vector p(n);  // pivots
-  int info=lapack::sysv(lapack::lower(A), p, x); // solve
+  int info=lapack::posv(lapack::upper(A), x); // solve
   if (info==0) {
     // res <- A*x - b
     vector res(b);

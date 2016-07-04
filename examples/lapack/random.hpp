@@ -47,4 +47,27 @@ std::mt19937 rand_normal<std::complex<T>>::engine(0);
 template<typename T>
 std::normal_distribution<T> rand_normal<std::complex<T>>::U;
 
+
+
+template<typename T>
+class rand_uniform {
+  static std::mt19937 engine;
+  static std::uniform_real_distribution<T> U;
+public:
+  static void reset() {
+    engine=std::mt19937(0);
+    U.reset();
+  }
+  static T get(T a, T b) {
+    return U(engine)*(b-a)+a;
+  }
+};
+
+template<typename T>
+std::mt19937 rand_uniform<T>::engine(0);
+
+template<typename T>
+std::uniform_real_distribution<T> rand_uniform<T>::U(0, 1);
+
+
 #endif

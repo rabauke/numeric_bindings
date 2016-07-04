@@ -1,15 +1,16 @@
 #include <cstdlib>
 #include <iostream>
 #include <complex>
+#include <type_traits>
+#include <algorithm>
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
+#include <boost/numeric/ublas/banded.hpp>
 #include <boost/numeric/bindings/ublas/vector.hpp>
-#include <boost/numeric/bindings/ublas/matrix.hpp>
+#include <boost/numeric/bindings/ublas/banded.hpp>
 #include <boost/numeric/bindings/blas/level1.hpp>
 #include <boost/numeric/bindings/blas/level2.hpp>
 #include <boost/numeric/bindings/lapack/driver.hpp>
-#include <boost/numeric/bindings/lower.hpp>
-#include <boost/numeric/bindings/upper.hpp>
 #include "random.hpp"
 
 namespace ublas=boost::numeric::ublas;
@@ -19,66 +20,58 @@ namespace lapack=boost::numeric::bindings::lapack;
 int main(int argc, char *argv[]) {
   typedef std::complex<double> complex;
   typedef ublas::vector<complex> vector;
-  typedef ublas::matrix<complex, ublas::column_major> matrix;
-  typedef typename vector::size_type size_type;
+  typedef ublas::vector<double> d_vector;
+  typedef ublas::banded_matrix<complex, ublas::column_major> matrix;
+  typedef ublas::matrix<complex, ublas::column_major> dense_matrix;
+  typedef typename std::make_signed<vector::size_type>::type size_type;
 
   rand_normal<complex>::reset();
-  int n=128;
-  // generate a random unitary matrix
-  matrix U(n, n);
-  for (size_type j=0; j<n; ++j)
-    for (size_type i=0; i<n; ++i)
-      U(i, j)=i==j ? complex(1) : complex(0);
-  for (int k=0; k<n*n; ++k) {
+  size_type n=1024;
+  matrix A(n, n, 1, 1);
+  for (size_type i=0; i<n; ++i)
+    A(i, i)=std::abs(rand_normal<complex>::get())+1;
+  for (size_type i=0; i<n-1; ++i) {
+    A(i+1, i)=complex(0);
+    A(i, i+1)=complex(0);
+  }
+  for (int k=0; k<n-1; ++k) {
     // generate a random 2x2 unitary matrix
     double phi(rand_uniform<double>::get(0, 1.5707963267948966192));
     double alpha(rand_uniform<double>::get(0, 6.2831853071795864770));
     double psi(rand_uniform<double>::get(0, 6.2831853071795864770));
     double chi(rand_uniform<double>::get(0, 6.2831853071795864770));
-    matrix u(2, 2);
+    dense_matrix u(2, 2);
     u(0, 0)=complex(std::cos(alpha+psi), std::sin(alpha+psi))*std::cos(phi);
     u(1, 0)=-complex(std::cos(alpha-chi), std::sin(alpha-chi))*std::sin(phi);
     u(0, 1)=complex(std::cos(alpha+chi), std::sin(alpha+chi))*std::sin(phi);
     u(1, 1)=complex(std::cos(alpha-psi), std::sin(alpha-psi))*std::cos(phi);
-    int j0, j1;
-    j0=static_cast<int>(rand_uniform<double>::get(0, n));
-    do {
-      j1=static_cast<int>(rand_uniform<double>::get(0, n));
-    } while (j0==j1);
-    for (size_type i=0; i<n; ++i) {
-      vector Uc(2);
-      Uc(0)=U(j0, i);
-      Uc(1)=U(j1, i);
-      Uc=ublas::prod(u, Uc);
-      U(j0, i)=Uc(0);
-      U(j1, i)=Uc(1);
-    }
+    dense_matrix a(2, 2);
+    a(0, 0)=A(k, k);
+    a(1, 0)=A(k+1, k);
+    a(0, 1)=A(k, k+1);
+     a(1, 1)=A(k+1, k+1);
+    a=ublas::prod(ublas::trans(ublas::conj(u)), a);
+    a=ublas::prod(a, u);
+    A(k, k)=a(0, 0);
+    A(k+1, k)=a(1, 0);
+    A(k, k+1)=a(0, 1);
+    A(k+1, k+1)=a(1, 1);
   }
-  matrix R(ublas::prod(ublas::trans(ublas::conj(U)), U));
-  // generate random positive definite hermitian matrix
-  matrix A(n, n);
-  for (size_type j=0; j<n; ++j)
-    for (size_type i=0; i<n; ++i)
-      if (i==j)
-	// eigenvalues drawn from the positive half of the normal distribution
-	do {
-	  A(i, j)=std::abs(rand_normal<complex>::get());
-	} while (A(i, j)==complex(0));
-      else
-	A(i, j)=complex(0);
-  // apply a random unitary transform to A
-  A=ublas::prod(ublas::trans(ublas::conj(U)), A);
-  A=ublas::prod(A, U);
-  matrix A_bak(A);
   vector b(n);
   for (size_type i=0; i<n; ++i)
     b(i)=rand_normal<complex>::get();
   vector x(b);
-  int info=lapack::posv(lapack::upper(A), x); // solve
+  d_vector d(n);
+  vector e(n-1);
+  for (size_type i=0; i<n; ++i)
+    d(i)=A(i ,i).real();
+  for (size_type i=0; i<n-1; ++i)
+    e(i)=A(i+1, i);
+  int info=lapack::ptsv(d, e, x); // solve
   if (info==0) {
     // res <- A*x - b
     vector res(b);
-    blas::gemv(complex(1, 0), A_bak, x, complex(-1, 0), res);
+    blas::gbmv(complex(1, 0), A, x, complex(-1, 0), res);
     std::cout << "norm of residual : " << blas::nrm2(res) << '\n';
   } else
     if (info>0)

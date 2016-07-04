@@ -11,7 +11,6 @@
 #include <boost/numeric/bindings/blas/level2.hpp>
 #include <boost/numeric/bindings/lapack/driver.hpp>
 #include "random.hpp"
-#include "print.hpp"
 
 namespace ublas=boost::numeric::ublas;
 namespace blas=boost::numeric::bindings::blas;
@@ -20,7 +19,6 @@ namespace lapack=boost::numeric::bindings::lapack;
 int main(int argc, char *argv[]) {
   typedef std::complex<double> complex;
   typedef ublas::vector<complex> vector;
-  typedef ublas::vector<int> p_vector;
   typedef ublas::banded_matrix<complex, ublas::column_major> matrix;
   typedef typename std::make_signed<vector::size_type>::type size_type;
 

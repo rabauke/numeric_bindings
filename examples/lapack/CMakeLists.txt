@@ -20,3 +20,6 @@ add_executable(gtsv gtsv.cc)
 target_link_libraries(gtsv blas lapack dl)
 add_executable(ptsv ptsv.cc)
 target_link_libraries(ptsv blas lapack dl)
+
+add_executable(geev geev.cc)
+target_link_libraries(geev blas lapack dl)

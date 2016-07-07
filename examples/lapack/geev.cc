@@ -11,7 +11,6 @@
 #include <boost/numeric/bindings/blas/level2.hpp>
 #include <boost/numeric/bindings/conj.hpp>
 #include <boost/numeric/bindings/lapack/driver.hpp>
-#include <boost/numeric/ublas/io.hpp>
 #include "random.hpp"
 
 namespace ublas=boost::numeric::ublas;

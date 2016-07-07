@@ -23,3 +23,5 @@ target_link_libraries(ptsv blas lapack dl)
 
 add_executable(geev geev.cc)
 target_link_libraries(geev blas lapack dl)
+add_executable(heev heev.cc)
+target_link_libraries(heev blas lapack dl)

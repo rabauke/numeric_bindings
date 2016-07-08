@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
   {
     vector lambda(n);
     matrix A_bak(A);
-    int info=lapack::heev('V', lapack::upper(A), lambda);
+    int info=lapack::syev('V', lapack::upper(A), lambda);
     if (info==0) {
       for (int i=0; i<n; ++i) {
 	// res <- A*vr(i) - lambda(i)*vr(i)

@@ -4,6 +4,10 @@ set(CMAKE_CXX_EXTENSIONS off)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+enable_language(CXX)
+
+find_package(BLAS REQUIRED)
+
 include_directories(../../ /usr/include/eigen3)
 
 project(Blas_tests)

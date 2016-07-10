@@ -4,6 +4,12 @@ set(CMAKE_CXX_EXTENSIONS off)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+
+enable_language(CXX)
+
+find_package(BLAS REQUIRED)
+find_package(LAPACK REQUIRED)
+
 include_directories(../../ /usr/include/eigen3)
 
 project(Lapack_tests)
